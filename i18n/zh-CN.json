@@ -1,0 +1,9 @@
+{
+  "bar.cpu": "CPU",
+  "bar.fan": "风扇",
+  "bar.disk": "磁盘可用",
+  "bar.memory": "内存可用",
+  "bar.free": "空闲",
+  "bar.used": "已用",
+  "bar.unavailable": "不可用"
+}

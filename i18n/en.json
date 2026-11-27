@@ -1,0 +1,9 @@
+{
+  "bar.cpu": "CPU",
+  "bar.fan": "Fan",
+  "bar.disk": "Disk free",
+  "bar.memory": "Memory available",
+  "bar.free": "free",
+  "bar.used": "used",
+  "bar.unavailable": "n/a"
+}

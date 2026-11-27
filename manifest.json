@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "kevin.sysmon",
+  "name": "System monitor",
+  "version": "0.1.0",
+  "author": "Kevin",
+  "description": "Bar widget showing fan speed, free disk space and available memory",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "System monitor",
+    "description": "Fan speed, free disk space and available memory",
+    "category": "System",
+    "allowMultiple": false
+  }
+}
