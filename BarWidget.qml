@@ -15,7 +15,7 @@ BarWidget {
   property string diskFreePct: "--"
   property string diskUsedPct: "--"
   property string memTotal: "--"
-  property string memAvailPct: "--"
+  property string memUsedPct: "--"
 
   Commons.Translations {
     id: strings
@@ -36,17 +36,16 @@ BarWidget {
 
   readonly property string cpuValue: clean(root.cpuUsage)
   readonly property string fanValue: clean(root.fanRpm)
-  readonly property string diskValue: clean(root.diskFreePct)
-  readonly property string memValue: clean(root.memAvailPct)
+  readonly property string diskValue: clean(root.diskUsedPct)
+  readonly property string memValue: clean(root.memUsedPct)
   readonly property string tooltipText:
-    strings.t("bar.cpu") + ": " + cpuValue + " · " +
+    strings.t("bar.cpu") + ": " + cpuValue + " " + strings.t("bar.used") + " · " +
     strings.t("bar.fan") + ": " +
       (fanValue === "--" ? strings.t("bar.unavailable") : fanValue + " RPM") + " · " +
     strings.t("bar.disk") + ": " + clean(root.diskFree) + " (" +
-      diskValue + " " + strings.t("bar.free") + ", " +
-      clean(root.diskUsedPct) + " " + strings.t("bar.used") + ")" + " · " +
+      diskValue + " " + strings.t("bar.used") + ")" + " · " +
     strings.t("bar.memory") + ": " + clean(root.memAvail) + " / " +
-      clean(root.memTotal) + " (" + memValue + ")"
+      clean(root.memTotal) + " (" + memValue + " " + strings.t("bar.used") + ")"
 
   Component.onCompleted: refresh()
 
@@ -73,7 +72,7 @@ BarWidget {
         root.diskFreePct = lines[3]
         root.diskUsedPct = lines[4]
         root.memTotal = lines[5]
-        root.memAvailPct = lines[6]
+        root.memUsedPct = lines[6]
         root.cpuUsage = lines[7]
       }
     }

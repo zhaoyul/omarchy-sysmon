@@ -4,11 +4,13 @@ An [Omarchy](https://omarchy.org/) shell bar widget showing live system stats:
 
 - `󰻠` CPU usage % (two `/proc/stat` samples 0.4s apart)
 - `󰈐` fan RPM (highest `/sys/class/hwmon/hwmon*/fan*_input`; `--` when unavailable)
-- `󰋊` free space % on `/` (`df -Pk /`)
-- `󰍛` available memory % (`MemAvailable` from `/proc/meminfo`)
+- `󰋊` disk used % on `/` (`df -Pk /`)
+- `󰍛` memory used % (`1 − MemAvailable/MemTotal` from `/proc/meminfo`)
 
-Hover a button for the full tooltip (absolute free space, used percentage,
-memory total). Click to refresh immediately. Data refreshes every 5 seconds.
+All three percentages use the same "used" convention: higher means
+busier/fuller. Hover a button for the full tooltip (absolute free space, used
+percentage, memory total). Click to refresh immediately. Data refreshes every
+5 seconds.
 
 ## Install
 
@@ -28,7 +30,7 @@ does not show up, force a reload with `omarchy restart shell`.
 Validate the plugin manifest with:
 
 ```sh
-omarchy plugin validate kevin.sysmon
+omarchy plugin validate ~/.config/omarchy/plugins/kevin.sysmon
 ```
 
 ## Files

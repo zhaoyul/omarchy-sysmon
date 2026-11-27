@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Print eight lines for the kevin.sysmon bar widget:
 #   fan RPM, disk free, mem available, disk free %, disk used %, mem total,
-#   mem available %, CPU usage %
+#   mem used %, CPU usage %
 
 set -uo pipefail
 
@@ -50,12 +50,12 @@ if [[ ${disk_pct:-} =~ ^[0-9]+%$ ]]; then
   disk_free_pct=$(awk -v u="${disk_pct%\%}" 'BEGIN { printf "%.0f%%", 100 - u }')
 fi
 
-# Memory: MemAvailable / MemTotal from /proc.
+# Memory: used = MemTotal - MemAvailable, as a percentage of MemTotal.
 mem_available_k=$(awk '/^MemAvailable:/ { print $2; exit }' /proc/meminfo 2>/dev/null)
 mem_total_k=$(awk '/^MemTotal:/ { print $2; exit }' /proc/meminfo 2>/dev/null)
 mem_avail="--"
 mem_total="--"
-mem_avail_pct="--"
+mem_used_pct="--"
 if [[ ${mem_available_k:-} =~ ^[0-9]+$ ]]; then
   mem_avail=$(awk -v k="$mem_available_k" 'BEGIN { printf "%.1fG", k / 1048576 }')
 fi
@@ -63,10 +63,10 @@ if [[ ${mem_total_k:-} =~ ^[0-9]+$ ]]; then
   mem_total=$(awk -v k="$mem_total_k" 'BEGIN { printf "%.1fG", k / 1048576 }')
 fi
 if [[ ${mem_available_k:-} =~ ^[0-9]+$ && ${mem_total_k:-} =~ ^[0-9]+$ ]] && (( mem_total_k > 0 )); then
-  mem_avail_pct=$(awk -v a="$mem_available_k" -v t="$mem_total_k" 'BEGIN { printf "%.0f%%", 100 * a / t }')
+  mem_used_pct=$(awk -v a="$mem_available_k" -v t="$mem_total_k" 'BEGIN { printf "%.0f%%", 100 * (1 - a / t) }')
 fi
 
 printf '%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n' \
   "${fan_rpm:---}" "$disk_free" "$mem_avail" \
-  "$disk_free_pct" "$disk_used_pct" "$mem_total" "$mem_avail_pct" \
+  "$disk_free_pct" "$disk_used_pct" "$mem_total" "$mem_used_pct" \
   "$cpu_usage"

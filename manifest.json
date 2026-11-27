@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "id": "kevin.sysmon",
   "name": "System monitor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Kevin",
-  "description": "Bar widget showing fan speed, free disk space and available memory",
+  "description": "Bar widget showing CPU usage, fan speed, disk and memory usage",
   "kinds": [
     "bar-widget"
   ],
@@ -13,7 +13,7 @@
   },
   "barWidget": {
     "displayName": "System monitor",
-    "description": "Fan speed, free disk space and available memory",
+    "description": "CPU, fan, disk and memory usage",
     "category": "System",
     "allowMultiple": false
   }
