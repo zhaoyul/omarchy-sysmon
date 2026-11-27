@@ -27,8 +27,10 @@ if [[ ${cpu_total1:-} =~ ^[0-9]+$ && ${cpu_idle1:-} =~ ^[0-9]+$ &&
 fi
 
 # Fan: use the highest reading among all hwmon fan inputs.
+# Some drivers (e.g. applesmc on MacBooks) expose fan inputs on the parent
+# device directory rather than inside /sys/class/hwmon/hwmonN itself.
 fan_rpm=""
-for input in /sys/class/hwmon/hwmon*/fan*_input; do
+for input in /sys/class/hwmon/hwmon*/fan*_input /sys/class/hwmon/hwmon*/device/fan*_input; do
   [[ -r $input ]] || continue
   value=$(<"$input") || continue
   [[ $value =~ ^[0-9]+$ ]] || continue
